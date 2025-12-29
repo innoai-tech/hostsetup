@@ -1,0 +1,66 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: Build ${{ matrix.target }}
+    runs-on: ${{ contains(matrix.target, 'arm64') && 'ubuntu-24.04-arm' || 'ubuntu-latest' }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - ubuntu1804-amd64
+          - ubuntu2004-amd64
+          - ubuntu2204-amd64
+          - ubuntu2404-amd64
+          - oe2203-amd64
+          - oe2203sp2-amd64
+          - oe2403-amd64
+          - oe2203-arm64
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Just
+        uses: extractions/setup-just@v2
+
+      - name: Build project
+        run: just pkg-${{ matrix.target }}
+
+      - name: Tar artifacts
+        run: tar -cvf ${{ matrix.target }}.tar -C ./target ${{ matrix.target }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ matrix.target }}.tar
+
+  release:
+    name: Create Pre-Release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: Automatic Release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            release-artifacts/**

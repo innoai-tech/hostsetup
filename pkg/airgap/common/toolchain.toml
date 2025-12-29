@@ -1,0 +1,97 @@
+[deps]
+# --- 远程与基础工具 ---
+## SSH 服务
+openssh-server = { }
+## 文本编辑
+vim = { }
+## 终端复用
+tmux = { }
+screen = { }
+## 目录树显示
+tree = { }
+## 远程同步
+rsync = { }
+
+# --- 资源监控与排障 ---
+## 交互式进程监控
+htop = { }
+atop = { skip = ["oe*"] }
+btop = { skip = ["ubuntu1804", "ubuntu2004", "oe*"] }
+## 磁盘 IO 监控
+iotop = { }
+## 进程文件/调用跟踪
+lsof = { }
+strace = { }
+## 系统性能指标统计
+sysstat = { }
+## 现代磁盘/空间分析工具
+duf = { skip = ["ubuntu1804", "ubuntu2004", "oe*"] }
+ncdu = { skip = ["oe*"] }
+## Performance Co-Pilot (dstat 的现代替代品)
+pcp = { os = "ubuntu" }
+pcp-system-tools = { os = "oe" }
+
+# --- 网络诊断与负载 ---
+## 抓包与扫描
+tcpdump = { }
+nmap = { }
+## 路由追踪与带宽测试
+mtr = { }
+traceroute = { }
+iperf3 = { }
+## 网卡物理层信息查看
+ethtool = { }
+## 万能网络通道
+socat = { }
+## IPVS 负载均衡管理
+ipvsadm = { }
+## 连接跟踪工具
+conntrack = { }
+
+# --- 存储与硬件检测 ---
+## 磁盘健康检测
+smartmontools = { }
+## NVMe 固态硬盘工具
+nvme-cli = { }
+## 磁盘参数调整
+hdparm = { }
+## 存储性能压测
+fio = { }
+## 传感器监控
+lm-sensors = { os = "ubuntu" }
+lm_sensors = { os = "oe" }
+## 带外管理工具
+ipmitool = { }
+## 常用文件系统
+xfsprogs = { }
+e2fsprogs = { }
+## 分区工具
+parted = { }
+gdisk = { }
+
+# --- 压缩与归档工具 ---
+## 基础压缩 (gz)
+gzip = { }
+## 高压缩比工具 (xz)
+xz-utils = { os = "ubuntu" }
+xz = { os = "oe" }
+## 传统压缩 (bz2)
+bzip2 = { }
+## 现代平衡型压缩 (极速且高压缩比)
+zstd = { }
+
+# --- 驱动支持与底层工具 ---
+## 动态内核模块支持 (离线装驱动核心)
+dkms = { }
+## Debian 包开发工具 (Ubuntu 系统驱动依赖)
+dpkg-dev = { os = "ubuntu" }
+
+# --- 系统调优与高级权限 ---
+## 性能配置自动优化
+tuned = { }
+## NUMA 亲和性工具
+numactl = { }
+## 细粒度权限控制
+acl = { }
+## JSON 处理器
+jq = { }
